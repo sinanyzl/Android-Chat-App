@@ -36,6 +36,10 @@ class FirebaseAuthSource {
     }
 
 
+    fun attachAuthStateObserver(firebaseAuthStateObServer: FirebaseAuthStateObServer, b: ((Result<FirebaseUser>) -> Unit)){
+        val listener = attachAuthStateObserver(b)
+        firebaseAuthStateObServer.start(listener, authInstance)
+    }
 
 
 

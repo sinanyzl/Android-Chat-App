@@ -2,6 +2,7 @@ package com.example.android_chat_app.data.db.remote
 
 import android.database.CursorJoiner
 import android.os.Message
+import android.provider.ContactsContract.Data
 import com.example.android_chat_app.data.db.entity.Chat
 import com.example.android_chat_app.data.db.entity.User
 import com.example.android_chat_app.data.db.entity.UserFriend
@@ -96,8 +97,8 @@ class FirebaseDatabaseSource {
         refToPath("users/$userID/info/status").setValue(url)
     }
 
-    fun updateLastMessage(chatId: String, message: Message){
-        refToPath("chats/$chatId/lastMessage").setValue(message)
+    fun updateLastMessage(chatID: String, message: Message){
+        refToPath("chats/$chatID/lastMessage").setValue(message)
     }
 
 
@@ -124,19 +125,106 @@ class FirebaseDatabaseSource {
     }
 
 
+    fun pushNewMessage(messageID: String, message: Message){
+        refToPath("messages/$messageID").push().setValue(message)
+    }
 
 
+    fun removeNotification(userID: String, notificationID: String){
+        refToPath("users/${userID}/notifications/$notificationID").setValue(null)
+
+    }
 
 
+    fun removeFriend(userID: String, friendID: String){
+        refToPath("users/${userID}/friends/$friendID").setValue(null)
+        refToPath("users/${friendID}/friends/$userID").setValue(null)
+    }
+
+    fun removeSentRequest(userID: String, sentRequestID: String){
+        refToPath("users/${userID}/sentRequest/$sentRequestID").setValue(null)
+    }
+
+    fun removeChat(chatID: String){
+        refToPath("chats/$chatID").setValue(null)
+    }
+
+    fun removeMessages(messageID: String){
+        refToPath("messages/$messageID").setValue(null)
+    }
 
 
+    fun loadUserTask(userID: String): Task<DataSnapshot>{
+        val src = TaskCompletionSource<DataSnapshot>()
+        val listener = attachValueListenerToTaskCompletion(src)
+        refToPath("users/$userID").addListenerForSingleValueEvent(listener)
+        return src.task
+    }
 
 
+    fun loadUserInfoTask(userID: String): Task<DataSnapshot>{
+        val src = TaskCompletionSource<DataSnapshot>()
+        val listener = attachValueListenerToTaskCompletion(src)
+        refToPath("users/$userID/info").addListenerForSingleValueEvent(listener)
+        return src.task
+    }
 
 
+    fun loadUserTask(): Task<DataSnapshot>{
+        val src = TaskCompletionSource<DataSnapshot>()
+        val listener = attachValueListenerToTaskCompletion(src)
+        refToPath("users").addListenerForSingleValueEvent(listener)
+        return src.task
+    }
 
 
+    fun loadFriendsTask(userID: String): Task<DataSnapshot>{
+        val src = TaskCompletionSource<DataSnapshot>()
+        val listener = attachValueListenerToTaskCompletion(src)
+        refToPath("users/$userID/friends").addListenerForSingleValueEvent(listener)
+        return src.task
+    }
 
+    fun loadChatTask(chatID: String): Task<DataSnapshot>{
+        val src = TaskCompletionSource<DataSnapshot>()
+        val listener = attachValueListenerToTaskCompletion(src)
+        refToPath("chats/$chatID").addListenerForSingleValueEvent(listener)
+        return src.task
+    }
+
+    fun loadNotificationsTask(userID: String): Task<DataSnapshot>{
+        val src = TaskCompletionSource<DataSnapshot>()
+        val listener = attachValueListenerToTaskCompletion(src)
+        refToPath("users/$userID/notifications").addListenerForSingleValueEvent(listener)
+        return src.task
+    }
+
+
+    fun <T> attachUserObserver(resultClassName: Class<T>, userID: String, refObs: FirebaseReferenceValueObserver, b: ((Result<T>) -> Unit)){
+        val listener = attachValueListenerToBlock(resultClassName, b)
+        refObs.start(listener, refToPath("users/$userID"))
+    }
+
+    fun <T> attachUserInfoObserver(resultClassName: Class<T>, userID: String, refObs: FirebaseReferenceValueObserver, b: ((Result<T>) -> Unit)){
+        val listener = attachValueListenerToBlock(resultClassName, b)
+        refObs.start(listener, refToPath("users/$userID/info"))
+    }
+
+
+    fun <T> attachUserNotificationsObserver(resultClassName: Class<T>, userID: String, firebaseReferenceValueObserver: FirebaseReferenceValueObserver, b: ((Result<MutableList<T>>) -> Unit)) {
+        val listener = attachValueListenerToBlockWithList(resultClassName, b)
+        firebaseReferenceValueObserver.start(listener, refToPath("users/$userID/notifications"))
+    }
+
+    fun <T> attachMessagesObserver(resultClassName: Class<T>, messagesID: String, refObs: FirebaseReferenceChildObserver, b: ((Result<T>) -> Unit)) {
+        val listener = attachChildListenerToBlock(resultClassName, b)
+        refObs.start(listener, refToPath("messages/$messagesID"))
+    }
+
+    fun <T> attachChatObserver(resultClassName: Class<T>, chatID: String, refObs: FirebaseReferenceValueObserver, b: ((Result<T>) -> Unit)) {
+        val listener = attachValueListenerToBlock(resultClassName, b)
+        refObs.start(listener, refToPath("chats/$chatID"))
+    }
 
 
 

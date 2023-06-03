@@ -20,8 +20,12 @@ import com.example.android_chat_app.data.db.entity.*
 import com.example.android_chat_app.util.wrapSnapshotToArrayList
 import com.example.android_chat_app.util.wrapSnapshotToClass
 import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.firebase.database.*
+import com.example.android_chat_app.data.db.entity.*
+
+
+
+
 
 class FirebaseDataSource {
 

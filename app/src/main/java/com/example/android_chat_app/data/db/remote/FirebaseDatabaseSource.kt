@@ -19,7 +19,7 @@ import java.lang.Exception
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.*
 
-class FirebaseDatabaseSource {
+class FirebaseDataSource {
 
     companion object{
         val dbInstance = FirebaseDatabase.getInstance()
@@ -226,7 +226,83 @@ class FirebaseDatabaseSource {
         refObs.start(listener, refToPath("chats/$chatID"))
     }
 
+}
+
+class FirebaseReferenceConnectedObserver{
+    private var valueEventListener: ValueEventListener? = null
+    private var dbRef: DatabaseReference? = null
+    private var userRef: DatabaseReference? = null
+
+    fun start(userID: String){
+        this.userRef = FirebaseDatabaseSource.dbInstance.reference.child("users/$userID/onlibe")
+        this.valueEventListener = getEventListener(userID)
+        this.dbRef = FirebaseDatabaseSource.dbInstance.getReference(".info/connected").apply { addValueEventListener(valueEventListener!!) }
+    }
+
+    private fun getEventListener(userID: String): ValueEventListener{
+        return (object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val connect = snapshot.getValue(Boolean::class.java) ?: false
+                if (connect){
+                    FirebaseDatabaseSource.dbInstance.reference.child("users/$userID/info/online").setValue(true)
+                    userRef?.onDisconnect()?.setValue(false)
+                }
+            }
 
 
+            override fun onCancelled(error: DatabaseError) {  }
+        })
+    }
+
+    fun clear(){
+        valueEventListener?. let {dbRef?.removeEventListener(it)}
+        userRef?.setValue(false)
+        valueEventListener = null
+        dbRef = null
+        userRef = null
+    }
 
 }
+
+class FirebaseReferenceValueObserver{
+    private var valueEventListener: ValueEventListener? = null
+    private var dbRef: DatabaseReference? = null
+
+    fun start(valueEventListener: ValueEventListener, reference: DatabaseReference){
+        reference.addValueEventListener(valueEventListener)
+        this.valueEventListener = valueEventListener
+        this.dbRef = reference
+    }
+
+    fun clear(){
+        valueEventListener?.let { dbRef?.removeEventListener(it) }
+        valueEventListener = null
+        dbRef = null
+    }
+}
+
+class FirebaseReferenceChildObserver{
+
+    private var valueEventListener: ChildEventListener? = null
+    private var dbRef: DatabaseReference? = null
+    private var isObserving: Boolean = false
+
+    fun start(valueEventListener: ChildEventListener, reference: DatabaseReference){
+        isObserving = true
+        reference.addChildEventListener(valueEventListener)
+        this.valueEventListener = valueEventListener
+        this.dbRef = reference
+    }
+
+    fun clear(){
+        valueEventListener?.let { dbRef?.removeEventListener(it) }
+        isObserving = false
+        valueEventListener = null
+        dbRef = null
+    }
+
+    fun isObserving(): Boolean{
+        return isObserving
+    }
+}
+

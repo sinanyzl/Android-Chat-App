@@ -1,10 +1,8 @@
 package com.example.android_chat_app.data.db.remote
 
-import android.database.CursorJoiner
+
 import android.os.Message
-import android.provider.ContactsContract.Data
 import com.example.android_chat_app.data.db.entity.Chat
-import com.example.android_chat_app.data.db.entity.User
 import com.example.android_chat_app.data.db.entity.UserFriend
 import com.example.android_chat_app.data.db.entity.UserNotification
 import com.example.android_chat_app.data.db.entity.UserRequest
@@ -13,11 +11,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Transaction
 import com.google.firebase.database.ValueEventListener
 import java.lang.Exception
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.*
+import com.example.android_chat_app.data.Result
 
 class FirebaseDataSource {
 

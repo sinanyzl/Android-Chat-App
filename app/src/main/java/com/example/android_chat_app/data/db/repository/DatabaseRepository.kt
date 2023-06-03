@@ -13,6 +13,21 @@ class DatabaseRepository {
     private val firebaseDatabaseService = FirebaseDataSource()
 
 
+    fun updateUserState(userID: String, status: String){
+        firebaseDatabaseService.updateUserStatus(userID, status)
+    }
+
+    fun updateNewMessage(messagesID: String, message: Message) {
+        firebaseDatabaseService.pushNewMessage(messagesID, message)
+    }
+
+    fun updateNewUser(user: User){
+        firebaseDatabaseService.updateNewUser(user)
+    }
+
+    fun updateNewSentRequest(myUser: UserFriend, otherUser: UserFriend){
+        firebaseDatabaseService.updateNewFriend(myUser, otherUser)
+    }
 
 
 

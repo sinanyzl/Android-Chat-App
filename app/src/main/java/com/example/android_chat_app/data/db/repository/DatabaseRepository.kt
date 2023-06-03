@@ -70,5 +70,26 @@ class DatabaseRepository {
         firebaseDatabaseService.removeMessages(messagesID)
     }
 
+    fun loadUser(userID: String, b: ((Result<User>) -> Unit)){
+        firebaseDatabaseService.loadUserTask(userID).addOnSuccessListener{
+            b.invoke(Result.Success(wrapSnapshotToClass(User::class.java, it)))
+        }.addOnFailureListener{ b.invoke(Result.Error(it.message)) }
+    }
+
+    fun loadUserInfo(userID: String, b: ((Result<UserInfo>) -> Unit)){
+        firebaseDatabaseService.loadUserInfoTask(userID).addOnSuccessListener{
+            b.invoke(Result.Success(wrapSnapshotToClass(Chat::class.java, it)))
+        }.addOnFailureListener{b.invoke(Result.Error(it.message))}
+    }
+
+    fun loadChat(chatID: String, b: ((Result<Chat>) -> Unit)){
+        firebaseDatabaseService.loadChatTask(chatID).addOnSuccessListener{
+            b.invoke(Result.Success(wrapSnapshotToClass(Chat::class.java, it)))
+        }.addOnFailureListener{b.invoke(Result.Error(it.message))}
+    }
+
+
+
+
 
 }

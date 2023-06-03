@@ -133,8 +133,8 @@ class FirebaseDataSource {
     }
 
 
-    fun pushNewMessage(messageID: String, message: Message){
-        refToPath("messages/$messageID").push().setValue(message)
+    fun pushNewMessage(messagesID: String, message: Message){
+        refToPath("messages/$messagesID").push().setValue(message)
     }
 
 

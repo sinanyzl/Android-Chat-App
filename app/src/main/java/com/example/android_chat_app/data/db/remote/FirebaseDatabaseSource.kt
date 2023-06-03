@@ -13,9 +13,15 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.lang.Exception
-import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.database.*
 import com.example.android_chat_app.data.Result
+import com.example.android_chat_app.data.db.entity.*
+import com.example.android_chat_app.util.wrapSnapshotToArrayList
+import com.example.android_chat_app.util.wrapSnapshotToClass
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.TaskCompletionSource
+import com.google.firebase.database.*
 
 class FirebaseDataSource {
 

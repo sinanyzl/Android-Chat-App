@@ -89,7 +89,53 @@ class DatabaseRepository {
     }
 
 
+    fun loadUsers(b: ((Result<MutableList<User>) -> Unit)){
+        b.invoke(Result.Loading)
+        firebaseDatabaseService.loadUserTask().addOnSuccessListener{
+            val userList = wrapSnapshotToArrayList(User::class.java, it)
+            b.invoke(Result.Success(userList))
+        }.addOnFailureListener{ b.invoke(Result.Error(it.message))}
+    }
 
 
+    fun loadFriends(userID: String, b: ((Result<List<UserFriend>>) -> Unit)){
+        b.invoke(Result.Loading)
+        firebaseDatabaseService.loadFriendsTask(userID).addOnSuccessListener{
+            var friendList = wrapSnapshotToArrayList(UserFriend::class.java, it)
+            b.invoke(Result.Success(friendList))
+        }.addOnFailureListener{b.invoke(Result.Error(it.message))}
+    }
+
+
+    fun loadNotifications(userID: String, b: ((Result<MutableList<UserNotification>>) -> Unit)){
+        b.invoke(Result.Loading)
+        firebaseDatabaseService.loadNotificationsTask(userID).addOnSuccessListener{
+            val notificationsList = wrapSnapshotToArrayList(UserNotification::class.java, it)
+            b.invoke(Result.Success(notificationsList))
+        }.addOnFailureListener{b.invoke(Result.Error(it.message))}
+    }
+
+
+    fun loadAndOberveUser(userID: String, observe: FirebaseReferenceValueObserver, b: ((Result<User>) -> Unit)){
+        firebaseDatabaseService.attachUserObserver(User::class.java, userID, observe, b)
+    }
+    
+    fun loadAndObserveUserInfo(userID: String, observe: FirebaseReferenceValueObserver, b: ((Result<UserInfo>) -> Unit)){
+        firebaseDatabaseService.attachUserInfoObserver(UserInfo::class.java, userID, observe, b)
+    }
+
+
+    fun loadAndObserveUserNotifications(userID: String, observe: FirebaseReferenceValueObserver, b: ((Result<MutableList<UserNotification>>) -> Unit)){
+        firebaseDatabaseService.attachUserNotificationsObserver(UserNotification::class.java, userID, observe, b)
+    }
+
+
+    fun loadAndObserveMessagesAdded(messagesID: String, observer: FirebaseReferenceChildObserver, b: ((Result<Message>) -> Unit)){
+        firebaseDatabaseService.attachMessagesObserver(Message::class.java, messagesID, observer, b)
+    }
+
+    fun  loadAndObserveChat(chatID: String, observe: FirebaseReferenceValueObserver, b: ((Result<Chat>) -> Unit)){
+        firebaseDatabaseService.attachChatObserver(Chat::class.java, chatID, observe, b)
+    }
 
 }

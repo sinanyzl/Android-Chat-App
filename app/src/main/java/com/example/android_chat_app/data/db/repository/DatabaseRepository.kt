@@ -81,7 +81,8 @@ class DatabaseRepository {
 
     fun loadUserInfo(userID: String, b: ((Result<UserInfo>) -> Unit)){
         firebaseDatabaseService.loadUserInfoTask(userID).addOnSuccessListener{
-            b.invoke(Result.Success(wrapSnapshotToClass(Chat::class.java, it)))
+          b.invoke(Result.Success(wrapSnapshotToClass(Chat::class.java, it)))
+
         }.addOnFailureListener{b.invoke(Result.Error(it.message))}
     }
 

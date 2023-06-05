@@ -18,7 +18,7 @@ class AuthRepository {
     }
 
     fun loginUser(login: Login, b: ((Result<FirebaseUser>) -> Unit)){
-        b.invoke(Result.loading)
+        b.invoke(Result.Loading)
         firebaseAuthService.loginWithEmailAndPassword(login).addOnSuccessListener{
             b.invoke(Result.Success(it.user))
         }.addOnFailureListener{

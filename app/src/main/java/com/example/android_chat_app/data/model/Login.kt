@@ -1,4 +1,8 @@
 package com.example.android_chat_app.data.model
 
-class Login {
-}
+data class Login(
+
+    var email: String = "",
+    var password: String = ""
+
+        )

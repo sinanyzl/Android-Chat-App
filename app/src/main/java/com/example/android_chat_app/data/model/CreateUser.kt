@@ -1,4 +1,8 @@
 package com.example.android_chat_app.data.model
 
-class CreateUser {
-}
+data class CreateUser (
+    var displayName: String = "",
+    var email: String = "",
+    var password: String
+
+    )

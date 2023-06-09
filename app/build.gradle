@@ -1,11 +1,30 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+
+    id 'kotlin-kapt'
+    id 'kotlin-android'
+
+
 }
+
+
 
 android {
     namespace 'com.example.android_chat_app'
     compileSdk 33
+
+    dataBinding {
+        enabled true
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    dataBinding {
+        android.buildFeatures.dataBinding = true
+    }
 
     defaultConfig {
         applicationId "com.example.android_chat_app"
@@ -24,10 +43,6 @@ android {
         }
     }
 
-    buildFeatures {
-        dataBinding = true
-        viewBinding = true
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -68,6 +83,10 @@ dependencies {
     // Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'jp.wasabeef:picasso-transformations:2.2.1'
+    implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+
+    implementation 'com.facebook.fresco:fresco:1.13.0'
+    implementation 'jp.wasabeef:fresco-processors:2.1.0'
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

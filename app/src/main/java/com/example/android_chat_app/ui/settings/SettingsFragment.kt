@@ -25,7 +25,7 @@ import com.example.android_chat_app.util.convertFileToByteArray
 class SettingsFragment : Fragment(){
     private val  viewModel: SettingsViewModel by viewModels { SettingsViewModelFactory(App.myUserID)  }
 
-    private lateinit var viewDatabinding: FragmentSettingsBinding
+    private lateinit var viewDataBinding: FragmentSettingsBinding
     private val selectImageIntentRequestCode = 1
 
     override fun onCreateView(
@@ -37,7 +37,26 @@ class SettingsFragment : Fragment(){
             .apply {viewmodel = viewModel}
         viewDatabinding.lifecycleOwner = this.viewLifecycleOwner
         setHasOptionsMenu(true)
+
+        return viewDatabinding.true
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setupObservers()
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            android.R.id.home -> {
+                findNavController().popBackStack()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 
 
 

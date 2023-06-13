@@ -8,8 +8,8 @@ import com.example.android_chat_app.data.Result
 
 
 abstract class DefaultViewModel : ViewModel() {
-    protected val mSnackbarText = MutableLiveData<Event<String>>()
-    val snackBarText: LiveData<Event<String>> = mSnackbarText
+    protected val mSnackBarText = MutableLiveData<Event<String>>()
+    val snackBarText: LiveData<Event<String>> = mSnackBarText
 
     private val  mDataLoading = MutableLiveData<Event<Boolean>>()
     val dataLoading: LiveData<Event<Boolean>> = mDataLoading
@@ -26,7 +26,7 @@ abstract class DefaultViewModel : ViewModel() {
             is Result.Success -> {
                 mDataLoading.value = Event(false)
                 result.data?.let {mutableLiveData?.value = it}
-                result.msg?.let{ mSnackbarText.value = Event(it) }
+                result.msg?.let{ mSnackBarText.value = Event(it) }
             }
         }
     }

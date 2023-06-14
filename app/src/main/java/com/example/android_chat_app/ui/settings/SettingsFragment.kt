@@ -58,6 +58,57 @@ class SettingsFragment : Fragment(){
     }
 
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == selectImageIntentRequestCode) {
+            data?.data?.let { uri ->
+                convertFileToByteArray(requireContext(), uri).let {
+                    viewModel.changeUserImage(it)
+                }
+            }
+        }
+    }
+
+
+    private fun setupObservers() {
+        viewModel.editStatusEvent.observe(viewLifecycleOwner,
+            EventObserver { showEditStatusDialog() })
+
+        viewModel.editImageEvent.observe(viewLifecycleOwner,
+            EventObserver { startSelectImageIntent() })
+
+        viewModel.logoutEvent.observe(viewLifecycleOwner,
+            EventObserver {
+                SharedPreferencesUtil.removeUserID(requireContext())
+                navigateToStart()
+            })
+    }
+
+    private fun showEditStatusDialog() {
+        val input = EditText(requireActivity() as Context)
+        AlertDialog.Builder(requireActivity()).apply {
+            setTitle("Status:")
+            setView(input)
+            setPositiveButton("Ok") { _, _ ->
+                val textInput = input.text.toString()
+                if (!textInput.isBlank() && textInput.length <= 40) {
+                    viewModel.changeUserStatus(textInput)
+                }
+            }
+            setNegativeButton("Cancel") { _, _ -> }
+            show()
+        }
+    }
+
+    private fun startSelectImageIntent() {
+        val selectImageIntent = Intent(Intent.ACTION_GET_CONTENT)
+        selectImageIntent.type = "image/*"
+        startActivityForResult(selectImageIntent, selectImageIntentRequestCode)
+    }
+
+    private fun navigateToStart() {
+        findNavController().navigate(R.id.action_navigation_settings_to_startFragment)
+    }
 
 
 }

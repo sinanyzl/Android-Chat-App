@@ -10,8 +10,6 @@ import com.example.android_chat_app.databinding.ListItemMessageReceivedBinding
 import com.example.android_chat_app.databinding.ListItemMessageSentBinding
 
 
-
-
 class MessagesListAdapter internal constructor(private val viewModel: ChatViewModel, private val userId: String) : ListAdapter<Message, RecyclerView.ViewHolder>(MessageDiffCallback()) {
 
     private val holderTypeMessageReceived = 1

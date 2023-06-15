@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package com.example.android_chat_app.ui.chats
 
 
@@ -9,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android_chat_app.R
 import com.example.android_chat_app.data.model.ChatWithUserInfo
 import com.example.android_chat_app.data.db.entity.Message
-
 
 
 @BindingAdapter("bind_chats_list")

@@ -21,7 +21,6 @@ import com.example.android_chat_app.util.SharedPreferencesUtil
 import com.example.android_chat_app.util.convertFileToByteArray
 
 
-
 class SettingsFragment : Fragment(){
     private val  viewModel: SettingsViewModel by viewModels { SettingsViewModelFactory(App.myUserID)  }
 

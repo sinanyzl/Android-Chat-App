@@ -39,6 +39,8 @@ class MainViewModel : ViewModel() {
         fbAuthStateObserver.clear()
     }
 
+
+
     private fun setupAuthObserver(){
         authRepository.observeAuthState(fbAuthStateObserver) { result: Result<FirebaseUser> ->
             if (result is Result.Success) {
@@ -52,6 +54,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
+
     private fun startObservingNotifications() {
         dbRepository.loadAndObserveUserNotifications(userID, fbRefNotificationsObserver) { result: Result<MutableList<UserNotification>> ->
             if (result is Result.Success) {
@@ -59,6 +62,8 @@ class MainViewModel : ViewModel() {
             }
         }
     }
+
+
 
     private fun stopObservingNotifications() {
         fbRefNotificationsObserver.clear()

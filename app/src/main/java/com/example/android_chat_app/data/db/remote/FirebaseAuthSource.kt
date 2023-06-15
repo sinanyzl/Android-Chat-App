@@ -41,9 +41,6 @@ class FirebaseAuthSource {
         firebaseAuthStateObServer.start(listener, authInstance)
     }
 
-
-
-
 }
 
 class FirebaseAuthStateObServer{

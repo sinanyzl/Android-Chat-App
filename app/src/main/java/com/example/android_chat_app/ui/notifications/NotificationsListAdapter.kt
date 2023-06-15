@@ -26,14 +26,17 @@ class NotificationsListAdapter internal constructor(private val viewModel: Notif
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ListItemNotificationBinding.inflate(layoutInflater, parent, false)
         return ViewHolder(binding)
-    }
-}
 
-class UserInfoDiffCallback : DiffUtil.ItemCallback<UserInfo>() {
-    override fun areItemsTheSame(oldItem: UserInfo, newItem: UserInfo): Boolean {
+        }
+    }
+
+
+    class UserInfoDiffCallback : DiffUtil.ItemCallback<UserInfo>() {
+        override fun areItemsTheSame(oldItem: UserInfo, newItem: UserInfo): Boolean {
         return oldItem == newItem
     }
 

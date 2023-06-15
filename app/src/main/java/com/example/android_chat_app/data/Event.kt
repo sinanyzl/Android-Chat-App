@@ -1,4 +1,5 @@
 package com.example.android_chat_app.data
+
 import androidx.lifecycle.Observer
 
 open class Event<out T>(private  val content: T) {

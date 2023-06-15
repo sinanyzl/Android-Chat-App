@@ -15,11 +15,13 @@ import com.example.android_chat_app.data.Event
 import com.example.android_chat_app.data.Result
 
 
+
 class SettingsViewModelFactory(private val userID: String) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return SettingsViewModel(userID) as T
     }
 }
+
 
 
 class SettingsViewModel(private val userID: String) : DefaultViewModel() {

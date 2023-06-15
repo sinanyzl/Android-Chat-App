@@ -63,7 +63,6 @@ class ChatsViewModel(val myUserID: String) : DefaultViewModel() {
         }
     }
 
-
     private fun loadAndObserveChat(userInfo: UserInfo) {
         val observer = FirebaseReferenceValueObserver()
         firebaseReferenceObserverList.add(observer)
@@ -84,9 +83,7 @@ class ChatsViewModel(val myUserID: String) : DefaultViewModel() {
         _selectedChat.value = Event(chat)
     }
 
-
 }
-
 
 
 class ChatsViewModelFactory(private val myUserID: String) : ViewModelProvider.Factory{

@@ -30,6 +30,8 @@ class NotificationsFragment : Fragment() {
         setupListAdapter()
     }
 
+
+
     private fun setupListAdapter() {
         val viewModel = viewDataBinding.viewmodel
         if (viewModel != null) {
